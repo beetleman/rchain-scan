@@ -2,6 +2,7 @@
   (:require
     [conman.core :as conman]
     [java-time.pre-java8 :as jt]
+    [clojure.java.jdbc :as jdbc]
     [mount.core :refer [defstate]]
     [rchain-scan.config :refer [env]]))
 

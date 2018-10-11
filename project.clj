@@ -29,6 +29,7 @@
                  [nrepl "0.4.5"]
                  [org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.10.339" :scope "provided"]
+                 [org.clojure/java.jdbc "0.7.8"]
                  [org.clojure/tools.cli "0.4.1"]
                  [org.clojure/tools.logging "0.4.1"]
                  [org.webjars.bower/tether "1.4.4"]
