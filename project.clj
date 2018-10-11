@@ -1,3 +1,7 @@
+(def protoc-grpc-version "1.15.1")
+(def protoc-version "3.6.1")
+(def proto-target-path "target/generated")
+
 (defproject rchain-scan "0.1.0-SNAPSHOT"
 
   :description "FIXME: write description"
@@ -42,10 +46,16 @@
                  [ring/ring-core "1.7.0"]
                  [ring/ring-defaults "0.3.2"]
                  [secretary "1.2.3"]
-                 [selmer "1.12.1"]]
+                 [selmer "1.12.1"]
+
+                 [io.grpc/grpc-netty-shaded ~protoc-grpc-version :exclusions [io.grpc/grpc-core]]
+                 [io.grpc/grpc-core ~protoc-grpc-version]
+                 [io.grpc/grpc-netty-shaded ~protoc-grpc-version]
+                 [io.grpc/grpc-protobuf ~protoc-grpc-version]
+                 [io.grpc/grpc-stub ~protoc-grpc-version]]
 
   :min-lein-version "2.0.0"
-  
+
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :test-paths ["test/clj"]
   :resource-paths ["resources" "target/cljsbuild"]
@@ -54,7 +64,14 @@
 
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-immutant "2.1.0"]
+            [lein-protoc "0.5.0"]
             [lein-kibit "0.1.2"]]
+
+  :protoc-grpc {:version ~protoc-grpc-version}
+  :protoc-version ~protoc-version
+  :proto-target-path ~proto-target-path
+  :java-source-paths [~proto-target-path]
+
   :clean-targets ^{:protect false}
   [:target-path [:cljsbuild :builds :app :compiler :output-dir] [:cljsbuild :builds :app :compiler :output-to]]
   :figwheel
@@ -64,7 +81,7 @@
    :css-dirs ["resources/public/css"]
    :nrepl-middleware
    [cider/wrap-cljs-repl cider.piggieback/wrap-cljs-repl]}
-  
+
 
   :profiles
   {:uberjar {:omit-source true
@@ -83,8 +100,8 @@
                  :closure-warnings
                  {:externs-validation :off :non-standard-jsdoc :off}
                  :externs ["react/externs/react.js"]}}}}
-             
-             
+
+
              :aot :all
              :uberjar-name "rchain-scan.jar"
              :source-paths ["env/prod/clj"]
@@ -122,9 +139,9 @@
                       :pretty-print true
                       :closure-defines {"re_frame.trace.trace_enabled_QMARK_" true}
                       :preloads [day8.re-frame-10x.preload]}}}}
-                  
-                  
-                  
+
+
+
                   :doo {:build "test"}
                   :source-paths ["env/dev/clj"]
                   :resource-paths ["env/dev/resources"]
@@ -142,7 +159,7 @@
                       :main "rchain-scan.doo-runner"
                       :optimizations :whitespace
                       :pretty-print true}}}}
-                  
+
                   }
    :profiles/dev {}
    :profiles/test {}})

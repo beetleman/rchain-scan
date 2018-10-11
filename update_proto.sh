@@ -4,7 +4,7 @@ NAME=caspar_message_proto
 TMP=`mktemp -d --suffix _$NAME`
 RCHAIN=$TMP/rchain
 SCALAPB=$TMP/scalapb
-PROTO=./src/protobuf
+PROTO=./src/proto
 PY=./generated
 GIT="git clone --depth 1 -b master"
 
