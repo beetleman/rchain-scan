@@ -14,7 +14,7 @@
                  [clojure.java-time "0.3.2"]
                  [com.cognitect/transit-clj "0.8.313"]
                  [com.fasterxml.jackson.core/jackson-core "2.9.7"]
-                 [com.fasterxml.jackson.datatype/jackson-datatype-jdk8 "2.6.3"]
+                 [com.fasterxml.jackson.datatype/jackson-datatype-jdk8 "2.9.7"]
                  [com.h2database/h2 "1.4.197"]
                  [conman "0.8.2"]
                  [cprop "0.1.13"]
@@ -45,7 +45,7 @@
                  [ring/ring-core "1.7.0"]
                  [ring/ring-defaults "0.3.2"]
                  [secretary "1.2.3"]
-                 [selmer "1.12.1"]
+                 [selmer "1.12.2"]
 
                  [io.grpc/grpc-netty-shaded ~protoc-grpc-version :exclusions [io.grpc/grpc-core]]
                  [io.grpc/grpc-core ~protoc-grpc-version]
@@ -63,8 +63,9 @@
 
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-immutant "2.1.0"]
+            [lein-ancient "0.6.15"]
             [lein-protoc "0.5.0"]
-            [lein-kibit "0.1.2"]]
+            [lein-kibit "0.1.6"]]
 
   :protoc-grpc {:version ~protoc-grpc-version}
   :protoc-version ~protoc-version
