@@ -39,6 +39,7 @@
                  [org.webjars/bootstrap "4.1.3"]
                  [org.webjars/font-awesome "5.3.1"]
                  [org.webjars/webjars-locator "0.34"]
+                 [com.google.guava/guava "26.0-jre"]
                  [re-frame "0.10.6"]
                  [reagent "0.8.1"]
                  [ring-webjars "0.2.0"]
