@@ -1,0 +1,9 @@
+version: "2.1"
+
+services:
+  rchain:
+    image: rchain/rnode:release-rnode-v0.7
+    command: run -s
+    ports:
+      - "40401:40401"
+      - "40404:40404"
