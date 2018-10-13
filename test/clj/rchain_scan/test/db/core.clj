@@ -1,19 +1,13 @@
 (ns rchain-scan.test.db.core
-  (:require [rchain-scan.db.core :refer [*db*] :as db]
-            [luminus-migrations.core :as migrations]
+  (:require [clojure.java.jdbc :as jdbc]
             [clojure.test :refer :all]
-            [clojure.java.jdbc :as jdbc]
-            [rchain-scan.config :refer [env]]
-            [mount.core :as mount]))
+            [fixtures :as fixtures]
+            [rchain-scan.db.core :as db :refer [*db*]]))
 
 (use-fixtures
   :once
-  (fn [f]
-    (mount/start
-      #'rchain-scan.config/env
-      #'rchain-scan.db.core/*db*)
-    (migrations/migrate ["migrate"] (select-keys env [:database-url]))
-    (f)))
+  fixtures/db)
+
 
 (deftest test-users
   (jdbc/with-db-transaction [t-conn *db*]
