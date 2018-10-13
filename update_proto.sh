@@ -6,11 +6,11 @@ RCHAIN=$TMP/rchain
 SCALAPB=$TMP/scalapb
 PROTO=./src/proto
 PY=./generated
-GIT="git clone --depth 1 -b master"
+GIT="git clone --depth 1"
 
 # download scalaPB and rchain repos, sources of proto files
-$GIT https://github.com/rchain/rchain.git $RCHAIN
-$GIT https://github.com/scalapb/ScalaPB.git $SCALAPB
+$GIT -b release-rnode-v0.7 https://github.com/rchain/rchain.git $RCHAIN
+$GIT -b master https://github.com/scalapb/ScalaPB.git $SCALAPB
 
 # remove all proto, always start from scrach
 rm -rf $PROTO

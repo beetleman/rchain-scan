@@ -7,3 +7,7 @@
   (-> (ManagedChannelBuilder/forAddress host port)
       (.usePlaintext true)
       .build))
+
+
+(defn create-depoly-blockin-stub [channel]
+  (DeployServiceGrpc/newBlockingStub channel))
