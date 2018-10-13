@@ -1,5 +1,6 @@
 (ns rchain-grpc.core
-  (:import [coop.rchain.casper.protocol DeployServiceGrpc CasperMessage]
+  (:require [rchain-grpc.rho-types :refer [rho->clj]])
+  (:import [coop.rchain.casper.protocol DeployServiceGrpc CasperMessage CasperMessage$BlocksQuery]
            [io.grpc ManagedChannelBuilder]))
 
 
@@ -9,5 +10,16 @@
       .build))
 
 
-(defn create-depoly-blockin-stub [channel]
+(defn create-depoly-blocking-client [channel]
   (DeployServiceGrpc/newBlockingStub channel))
+
+
+(defn blocks-query [depth]
+  (-> (CasperMessage$BlocksQuery/newBuilder)
+      (.setDepth depth)
+      .build))
+
+
+(defn get-blocks [client depth]
+  (rho->clj (.showBlocks client
+                         (blocks-query depth))))

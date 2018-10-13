@@ -4,7 +4,9 @@
             [mount.core :as mount]
             [fixtures :as fixtures]
             [clojure.test :refer :all])
-  (:import [io.grpc Channel]))
+  (:import [io.grpc Channel]
+           [io.grpc.stub AbstractStub]
+           [coop.rchain.casper.protocol CasperMessage$BlocksQuery]))
 
 
 (use-fixtures
@@ -12,9 +14,44 @@
   fixtures/env)
 
 
+(defn get-channel []
+  (core/create-channel (get-in env [:rnode :host])
+                       (get-in env [:rnode :port])))
+
+
+
 (deftest create-channel
-  (let [channel (core/create-channel (get-in env [:rnode :host])
-                                     (get-in env [:rnode :port]))]
+  (let [channel (get-channel)]
     (is (instance? Channel
                    channel))
+    (.shutdown channel)))
+
+
+(deftest create-depoly-blocking-client
+  (let [channel (get-channel)
+        client (core/create-depoly-blocking-client channel)]
+    (is (instance? AbstractStub client))
+    (.shutdown channel)))
+
+
+(deftest blocks-query
+  (is (instance? CasperMessage$BlocksQuery (core/blocks-query 1))))
+
+
+(deftest get-blocks
+  (let [channel (get-channel)
+        client  (core/create-depoly-blocking-client channel)]
+    (let [blocks (core/get-blocks client 1)]
+      (is (= (->  blocks first keys)
+             [:block-size
+              :tuple-space-hash
+              :block-hash
+              :faul-tolerance
+              :deploy-conut
+              :block-number
+              :main-parent-hash
+              :sender
+              :parent-hash-lisst
+              :version
+              :timestamp])))
     (.shutdown channel)))
