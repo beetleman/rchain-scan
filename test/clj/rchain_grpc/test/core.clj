@@ -55,3 +55,22 @@
               :version
               :timestamp])))
     (.shutdown channel)))
+
+
+(deftest get-main-chain
+  (let [channel (get-channel)
+        client  (core/create-depoly-blocking-client channel)]
+    (let [blocks (core/get-main-chain client 1)]
+      (is (= (->  blocks first keys)
+             [:block-size
+              :tuple-space-hash
+              :block-hash
+              :faul-tolerance
+              :deploy-conut
+              :block-number
+              :main-parent-hash
+              :sender
+              :parent-hash-lisst
+              :version
+              :timestamp])))
+    (.shutdown channel)))

@@ -23,3 +23,8 @@
 (defn get-blocks [client depth]
   (rho->clj (.showBlocks client
                          (blocks-query depth))))
+
+
+(defn get-main-chain [client depth]
+  (rho->clj (.showMainChain client
+                            (blocks-query depth))))
