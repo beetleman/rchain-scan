@@ -1,0 +1,13 @@
+[server]
+no-upnp = false
+default-timeout = 2000
+standalone = true
+
+[tls]
+certificate = "/rnode/node.certificate.pem"
+key = "/rnode/node.key.pem"
+
+[validators]
+shard-id = "rchain"
+bonds-file = "/rnode/bonds.txt"
+private-key = "bc7bcb55ffcba8fad202b2ebe00a6bae37b63a396cc3e9105254f15be4cd31f0"
