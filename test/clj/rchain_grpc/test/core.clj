@@ -6,7 +6,7 @@
             [clojure.test :refer :all])
   (:import [io.grpc Channel]
            [io.grpc.stub AbstractStub]
-           [coop.rchain.casper.protocol CasperMessage$BlocksQuery]))
+           [coop.rchain.casper.protocol CasperMessage$BlocksQuery CasperMessage$BlockQuery]))
 
 
 (use-fixtures
@@ -36,6 +36,12 @@
 
 (deftest blocks-query
   (is (instance? CasperMessage$BlocksQuery (core/blocks-query 1))))
+
+
+(deftest blocks-query
+  (is (instance? CasperMessage$BlockQuery
+                 (core/block-query "4ce488c86f2276cff6917daeee5365553060d2ebaf5878b9eec6922bb22b9c2d"))))
+
 
 
 (deftest get-blocks
@@ -73,4 +79,15 @@
               :parent-hash-lisst
               :version
               :timestamp])))
+    (.shutdown channel)))
+
+
+(deftest get-block
+  (let [channel         (get-channel)
+        client          (core/create-depoly-blocking-client channel)
+        block-from-list (first (core/get-blocks client 1))
+        hash            (:block-hash block-from-list)]
+    (is (= (dissoc (:block-info (core/get-block client hash))
+                   :shard-id :tuple-space-dump)
+           block-from-list))
     (.shutdown channel)))

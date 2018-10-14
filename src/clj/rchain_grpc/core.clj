@@ -1,6 +1,10 @@
 (ns rchain-grpc.core
   (:require [rchain-grpc.rho-types :refer [rho->clj]])
-  (:import [coop.rchain.casper.protocol DeployServiceGrpc CasperMessage CasperMessage$BlocksQuery]
+  (:import [coop.rchain.casper.protocol
+            DeployServiceGrpc
+            CasperMessage
+            CasperMessage$BlocksQuery
+            CasperMessage$BlockQuery]
            [io.grpc ManagedChannelBuilder]))
 
 
@@ -20,6 +24,12 @@
       .build))
 
 
+(defn block-query [hash]
+  (-> (CasperMessage$BlockQuery/newBuilder)
+      (.setHash hash)
+      .build))
+
+
 (defn get-blocks [client depth]
   (rho->clj (.showBlocks client
                          (blocks-query depth))))
@@ -28,3 +38,8 @@
 (defn get-main-chain [client depth]
   (rho->clj (.showMainChain client
                             (blocks-query depth))))
+
+
+(defn get-block [client hash]
+  (rho->clj (.showBlock client
+                        (block-query hash))))
