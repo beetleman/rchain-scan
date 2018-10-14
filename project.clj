@@ -86,7 +86,7 @@
 
   :profiles
   {:uberjar {:omit-source true
-             :prep-tasks ["compile" ["cljsbuild" "once" "min"]]
+             :prep-tasks ["javac" "compile" ["cljsbuild" "once" "min"]]
              :cljsbuild
              {:builds
               {:min

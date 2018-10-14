@@ -3,10 +3,28 @@ version: "2.1"
 services:
   rchain:
     image: rchain/rnode:release-rnode-v0.7
-    command: -c /rnode/rnode.toml run
+    networks:
+      - tests
     volumes:
       - ./scripts:/scripts:ro
       - ./rnode:/rnode:ro
     ports:
       - "40401:40401"
       - "40404:40404"
+    command: -c /rnode/rnode.toml run
+
+
+  app:
+    build: .
+    networks:
+      - tests
+    depends_on:
+      - rchain
+    environment:
+      - RNODE__HOST:rchain
+    ports:
+      - "3000:3000"
+
+
+networks:
+  tests:

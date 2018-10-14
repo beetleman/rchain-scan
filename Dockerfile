@@ -1,8 +1,12 @@
+FROM clojure:lein
+
+ADD ./ /project
+WORKDIR /project
+RUN lein uberjar
+
 FROM java:8-alpine
-MAINTAINER Your Name <you@example.com>
 
-ADD target/uberjar/rchain-scan.jar /rchain-scan/app.jar
-
+COPY --from=0 /project/target/uberjar/rchain-scan.jar .
 EXPOSE 3000
 
-CMD ["java", "-jar", "/rchain-scan/app.jar"]
+CMD ["java", "-jar", "./rchain-scan.jar"]
