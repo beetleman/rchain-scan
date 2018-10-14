@@ -3,7 +3,10 @@ version: "2.1"
 services:
   rchain:
     image: rchain/rnode:release-rnode-v0.7
-    command: run -s
+    command: run -s --bonds-file /rnode/bonds.txt --validator-private-key bc7bcb55ffcba8fad202b2ebe00a6bae37b63a396cc3e9105254f15be4cd31f0
+    volumes:
+      - ./scripts:/scripts
+      - ./rnode:/rnode
     ports:
       - "40401:40401"
       - "40404:40404"
