@@ -6,7 +6,8 @@
 
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
-
+  :local-repo "./.m2"
+  :repositories {"sonatype-oss-public" "https://oss.sonatype.org/content/groups/public/"}
   :dependencies [[baking-soda "0.2.0" :exclusions [cljsjs/react-bootstrap]]
                  [cljs-ajax "0.7.4"]
                  [cljsjs/react-popper "0.10.4-0"]
