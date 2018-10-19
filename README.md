@@ -6,15 +6,57 @@ FIXME
 
 ## Prerequisites
 
-You will need [Leiningen][1] 2.0 or above installed.
+You will need [Docker] and [docker-compose]
 
-[1]: https://github.com/technomancy/leiningen
+or
+
+[Leiningen] 2.0 or above installed.
+
+First options is preferred and described in doc
+
+[Leiningen]: https://github.com/technomancy/leiningen
+[Docker]: https://docs.docker.com/install/
+[docker-compose]: https://docs.docker.com/compose/install/
 
 ## Running
 
 To start a web server for the application, run:
 
-    lein run 
+    docker-compose run --rm --service-ports repl lein run
+
+## Running tests
+
+To start tests in "watch" mode
+
+    docker-compose run --rm tests
+
+To run tests once
+
+    docker-compose run --rm tests lein test
+
+
+## Run repl
+
+    docker-compose up repl
+
+### run app
+
+connect to repl using Emacs `cider-connect-clj`(C-c M-c) and:
+
+``` clojure
+(start)
+```
+
+### run ClojureScript compiler
+
+after conecting to repl type
+
+``` clojure
+(start-fw)
+```
+
+or use `cider-connect-cljs`(C-c M-C) and you will get it for free
+
 
 ## License
 

@@ -6,7 +6,8 @@
 
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
-
+  :local-repo "./.m2"
+  :repositories {"sonatype-oss-public" "https://oss.sonatype.org/content/groups/public/"}
   :dependencies [[baking-soda "0.2.0" :exclusions [cljsjs/react-bootstrap]]
                  [cljs-ajax "0.7.4"]
                  [cljsjs/react-popper "0.10.4-0"]
@@ -121,10 +122,17 @@
                                  [pjstadig/humane-test-output "0.8.3"]
                                  [prone "1.6.1"]
                                  [ring/ring-devel "1.7.0"]
-                                 [ring/ring-mock "0.3.2"]]
+                                 [ring/ring-mock "0.3.2"]
+
+                                 [nrepl "0.4.5"] ; emacs/cider
+                                 ]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.23.0"]
                                  [lein-doo "0.1.10"]
-                                 [lein-figwheel "0.5.16"]]
+                                 [lein-figwheel "0.5.16"]
+
+                                 [refactor-nrepl "2.4.0"] ; emacs/cider
+                                 [cider/cider-nrepl "0.19.0-SNAPSHOT"] ; emacs/cider
+                                 ]
                   :cljsbuild
                   {:builds
                    {:app
