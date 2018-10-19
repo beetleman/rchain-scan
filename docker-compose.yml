@@ -39,7 +39,7 @@ services:
       - rchain
     networks:
       - rchain-scan
-    #entrypoint: ./scripts/wait-for-rnode.sh
+    entrypoint: ./scripts/wait-for-rnode.sh
     environment:
       - RNODE__HOST=rchain
     ports:
