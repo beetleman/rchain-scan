@@ -53,7 +53,9 @@
                  [io.grpc/grpc-core ~protoc-grpc-version]
                  [io.grpc/grpc-netty-shaded ~protoc-grpc-version]
                  [io.grpc/grpc-protobuf ~protoc-grpc-version]
-                 [io.grpc/grpc-stub ~protoc-grpc-version]]
+                 [io.grpc/grpc-stub ~protoc-grpc-version]
+                 [metosin/spec-tools "0.7.2"]
+                 [orchestra "2018.09.10-1"]]
 
   :min-lein-version "2.0.0"
 
