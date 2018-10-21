@@ -1,4 +1,4 @@
-# rchain-scan
+# rchain-scan [![Build Status](https://travis-ci.org/beetleman/rchain-scan.svg?branch=master)](https://travis-ci.org/beetleman/rchain-scan)
 
 generated using Luminus version "3.10.6"
 
