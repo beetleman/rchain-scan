@@ -6,7 +6,7 @@
 
 (defn calc-uptime [start now]
   (let [interval (t/interval start now)]
-    {:seconds (t/in-seconds interval)}))
+    (t/in-seconds interval)))
 
 (defn get-uptime []
   (calc-uptime start-datetime (t/now)))

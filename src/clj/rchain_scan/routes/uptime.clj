@@ -7,14 +7,14 @@
 (defmulti uptime #(get-in % [:headers "accept"]))
 
 (defmethod uptime :default [_]
-  (ok (get-uptime)))
+  (ok {:data (get-uptime)}))
 
 (defn- uptime-sse-handlers []
   (let [poison-ch (a/chan)]
     {:on-open  (fn [ch]
                  (a/go-loop [[_ c] [nil nil]]
                    (when-not (= c poison-ch)
-                     (sse/send! ch (assoc (get-uptime) :data true :type "uptime"))
+                     (sse/send! ch {:data (get-uptime) :type "uptime"})
                      (recur (a/alts! [(a/timeout 1000) poison-ch])))))
      :on-close (fn [_ _]
                  (a/put! poison-ch :stop))}))
