@@ -25,6 +25,10 @@ To start a web server for the application, run:
     docker-compose run --rm --service-ports repl lein run
 
 ## Running tests
+Before starting tests, populate rchain with at least 10 blocks:
+
+    docker-compose up rchain
+    docker-compose exec rchain bash -c "/scripts/generate.sh 10"
 
 To start tests in "watch" mode
 

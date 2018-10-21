@@ -2,8 +2,10 @@
   (:require [muuntaja.middleware :as muuntaja]
             [reitit.ring.coercion :as rrc]
             [reitit.swagger :as swagger]
+            [reitit.coercion.spec]
             [ring.util.http-response :refer :all]
             [ring.middleware.params :as params]
+            [rchain-scan.routes.get-blocks :as get-blocks]
             [rchain-scan.routes.uptime :as uptime]))
 
 (defn service-routes []
@@ -14,6 +16,7 @@
                  rrc/coerce-exceptions-middleware
                  rrc/coerce-request-middleware
                  rrc/coerce-response-middleware]
+    :coercion reitit.coercion.spec/coercion
     :swagger {:id ::api
               :info {:title "my-api"
                      :description "using [reitit](https://github.com/metosin/reitit)."}
@@ -28,4 +31,5 @@
            :handler (swagger/create-swagger-handler)}}]
    ["/ping" {:get (constantly (ok {:message "ping"}))}]
    ["/pong" {:post (constantly (ok {:message "pong"}))}]
+   ["/blocks" (get-blocks/routes)]
    ["/uptime" (uptime/routes)]])

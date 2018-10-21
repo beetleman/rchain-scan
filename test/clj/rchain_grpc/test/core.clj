@@ -29,9 +29,9 @@
     (.shutdown channel)))
 
 
-(deftest create-depoly-blocking-client
+(deftest create-deploy-blocking-client
   (let [channel (get-channel)
-        client (core/create-depoly-blocking-client channel)]
+        client (core/create-deploy-blocking-client channel)]
     (is (instance? AbstractStub client))
     (.shutdown channel)))
 
@@ -45,10 +45,9 @@
                  (#'core/block-query "4ce488c86f2276cff6917daeee5365553060d2ebaf5878b9eec6922bb22b9c2d"))))
 
 
-
 (deftest get-blocks
   (let [channel (get-channel)
-        client  (core/create-depoly-blocking-client channel)]
+        client  (core/create-deploy-blocking-client channel)]
     (let [blocks (core/get-blocks client 1)]
       (-> blocks first )
       (is (= (-> blocks first keys set)
@@ -68,7 +67,7 @@
 
 (deftest get-main-chain
   (let [channel (get-channel)
-        client  (core/create-depoly-blocking-client channel)]
+        client  (core/create-deploy-blocking-client channel)]
     (let [blocks (core/get-main-chain client 1)]
       (is (= (-> blocks first keys set)
              #{:block-size
@@ -88,7 +87,7 @@
 
 (deftest get-block
   (let [channel         (get-channel)
-        client          (core/create-depoly-blocking-client channel)
+        client          (core/create-deploy-blocking-client channel)
         block-from-list (first (core/get-blocks client 1))
         hash            (:block-hash block-from-list)]
     (is (= block-from-list
