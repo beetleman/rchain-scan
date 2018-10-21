@@ -14,3 +14,4 @@ profiles.clj
 /log
 /*.db
 /.m2
+.#*

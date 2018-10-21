@@ -22,10 +22,10 @@
       .build))
 
 
-(s/fdef create-depoly-blocking-client
+(s/fdef create-deploy-blocking-client
   :args (s/cat :channel channel-spec)
   :ret client-spec)
-(defn create-depoly-blocking-client [channel]
+(defn create-deploy-blocking-client [channel]
   (DeployServiceGrpc/newBlockingStub channel))
 
 
