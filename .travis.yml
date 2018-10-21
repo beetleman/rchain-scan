@@ -1,0 +1,16 @@
+sudo: required
+
+language: clojure
+
+services:
+  - docker
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y realpath
+  - docker-compose up -d rchain 
+  - ./scripts/wait-for-it.sh localhost:40401 -t 3600
+  - docker-compose exec rchain bash -c "/scripts/generate.sh 20"
+
+script:
+  - docker-compose run --rm tests lein test
