@@ -17,17 +17,17 @@
 
   CasperMessage$BlockInfoWithoutTuplespace
   (rho->clj [info]
-    {:block-hash        (.getBlockHash info)
-     :block-size        (.getBlockSize info)
-     :block-number      (.getBlockNumber info)
-     :version           (.getVersion info)
-     :deploy-conut      (.getDeployCount info)
-     :tuple-space-hash  (.getTupleSpaceHash info)
-     :timestamp         (.getTimestamp info)
-     :faul-tolerance    (.getFaultTolerance info)
-     :main-parent-hash  (.getMainParentHash info)
-     :parent-hash-lisst (.getParentsHashListList info)
-     :sender            (.getSender info)})
+    {:block-hash       (.getBlockHash info)
+     :block-size       (.getBlockSize info)
+     :block-number     (.getBlockNumber info)
+     :version          (.getVersion info)
+     :deploy-conut     (.getDeployCount info)
+     :tuple-space-hash (.getTupleSpaceHash info)
+     :timestamp        (.getTimestamp info)
+     :faul-tolerance   (.getFaultTolerance info)
+     :main-parent-hash (.getMainParentHash info)
+     :parent-hash-list (vec (.getParentsHashListList info))
+     :sender           (.getSender info)})
 
   CasperMessage$BlockQueryResponse
    (rho->clj [response]
@@ -36,17 +36,16 @@
 
   CasperMessage$BlockInfo
    (rho->clj [info]
-     {:block-hash        (.getBlockHash info)
-      :block-size        (.getBlockSize info)
-      :block-number      (.getBlockNumber info)
-      :version           (.getVersion info)
-      :deploy-conut      (.getDeployCount info)
-      :tuple-space-hash  (.getTupleSpaceHash info)
-      :timestamp         (.getTimestamp info)
-      :faul-tolerance    (.getFaultTolerance info)
-      :main-parent-hash  (.getMainParentHash info)
-      :parent-hash-lisst (.getParentsHashListList info)
-      :sender            (.getSender info)
-
-      :shard-id (.getShardId info)
+     {:block-hash       (.getBlockHash info)
+      :block-size       (.getBlockSize info)
+      :block-number     (.getBlockNumber info)
+      :version          (.getVersion info)
+      :deploy-conut     (.getDeployCount info)
+      :tuple-space-hash (.getTupleSpaceHash info)
+      :timestamp        (.getTimestamp info)
+      :faul-tolerance   (.getFaultTolerance info)
+      :main-parent-hash (.getMainParentHash info)
+      :parent-hash-list (vec (.getParentsHashListList info))
+      :sender           (.getSender info)
+      :shard-id         (.getShardId info)
       :tuple-space-dump (.getTupleSpaceDump info)}))

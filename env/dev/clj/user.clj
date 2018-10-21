@@ -5,16 +5,20 @@
             [mount.core :as mount]
             [rchain-scan.figwheel :refer [start-fw stop-fw cljs]]
             [conman.core :as conman]
+            [orchestra.spec.test :as st]
             [luminus-migrations.core :as migrations]))
+
 
 (alter-var-root #'s/*explain-out* (constantly expound/printer))
 
 (defn start []
   (require 'rchain-scan.core)
+  (st/instrument)
   (mount/start-without (ns-resolve 'rchain-scan.core 'repl-server)))
 
 (defn stop []
   (require 'rchain-scan.core)
+  (st/unstrument)
   (mount/stop-except (ns-resolve 'rchain-scan.core 'repl-server)))
 
 (defn restart []
