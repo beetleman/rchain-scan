@@ -15,6 +15,5 @@
 (s/def ::blocks blocks-info-spec)
 (defn routes []
   {:get {:handler #(get-blocks %)
-         :coercion reitit.coercion.spec/coercion
          :responses {200 {:body (s/keys :req-un [::blocks])}}
          :parameters {:query (s/keys :opt-un [::depth])}}})

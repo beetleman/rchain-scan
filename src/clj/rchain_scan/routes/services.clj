@@ -16,6 +16,7 @@
                  rrc/coerce-exceptions-middleware
                  rrc/coerce-request-middleware
                  rrc/coerce-response-middleware]
+    :coercion reitit.coercion.spec/coercion
     :swagger {:id ::api
               :info {:title "my-api"
                      :description "using [reitit](https://github.com/metosin/reitit)."}

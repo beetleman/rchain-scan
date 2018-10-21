@@ -23,7 +23,7 @@ services:
       - rchain
     networks:
       - rchain-scan
-    entrypoint: ./scripts/tests-entrypoint.sh
+    entrypoint: ./scripts/wait-for-rnode.sh
     environment:
       - RNODE__HOST=rchain
     tty: true
