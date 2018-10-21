@@ -1,6 +1,7 @@
 (ns fixtures
   (:require [rchain-scan.db.core]
             [rchain-scan.rnode]
+            [rchain-scan.handler]
             [luminus-migrations.core :as migrations]
             [clojure.java.jdbc :as jdbc]
             [rchain-scan.config :as config]
