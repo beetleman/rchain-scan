@@ -48,6 +48,7 @@
                  [ring/ring-defaults "0.3.2"]
                  [secretary "1.2.3"]
                  [selmer "1.12.2"]
+                 [org.clojure/core.async "0.4.474"]
 
                  [io.grpc/grpc-netty-shaded ~protoc-grpc-version :exclusions [io.grpc/grpc-core]]
                  [io.grpc/grpc-core ~protoc-grpc-version]
