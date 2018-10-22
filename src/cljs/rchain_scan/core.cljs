@@ -25,10 +25,12 @@
 
 (defn navbar []
   (r/with-let [expanded? (r/atom true)]
-    [b/Navbar {:light true
+    [b/Navbar {:dark true
+               :color "dark"
                :class-name "navbar-dark bg-primary"
                :expand "md"}
      [b/NavbarBrand {:href "/"} "rchain-scan"]
+     [uptime/ui]
      [b/NavbarToggler {:on-click #(swap! expanded? not)}]
      [b/Collapse {:is-open @expanded? :navbar true}
       [b/Nav {:class-name "mr-auto" :navbar true}
@@ -84,8 +86,7 @@
    [kf/switch-route (fn [route] (get-in route [:data :name]))
     :home home-page
     :about about-page
-    nil [:div ""]]
-   [uptime/ui]])
+    nil [:div ""]]])
 
 ;; -------------------------
 ;; Initialize app
