@@ -1,26 +1,26 @@
 (ns rchain-scan.routes.uptime
   (:require [immutant.web.sse :as sse]
-            [rchain-scan.uptime :refer [get-uptime]]
+            [rchain-scan.uptime :refer [get-uptime uptime-stream]]
+            [rchain-scan.stream :as stream]
             [ring.util.http-response :refer :all]
-            [clojure.core.async :as a :refer [<!] ]))
+            [clojure.core.async :as a :refer [<!]]))
 
 (defmulti uptime #(get-in % [:headers "accept"]))
 
 (defmethod uptime :default [_]
   (ok {:data (get-uptime)}))
 
-(defn- uptime-sse-handlers []
-  (let [poison-ch (a/chan)]
-    {:on-open  (fn [ch]
-                 (a/go-loop [[_ c] [nil nil]]
-                   (when-not (= c poison-ch)
-                     (sse/send! ch {:data (get-uptime) :type "uptime"})
-                     (recur (a/alts! [(a/timeout 1000) poison-ch])))))
-     :on-close (fn [_ _]
-                 (a/put! poison-ch :stop))}))
+(defn- uptime-sse-handlers [sub]
+  {:on-open  (fn [ch]
+               (stream/on-msg sub
+                              (fn [data]
+                                (sse/send! ch {:data data :type "uptime"}))))
+   :on-close (fn [_ _]
+               (stream/unsubscribe uptime-stream sub))})
 
 (defmethod uptime "text/event-stream" [request]
-  (sse/as-channel request (uptime-sse-handlers)))
+  (sse/as-channel request (uptime-sse-handlers (stream/subscribe uptime-stream))))
+
 
 (defn routes []
   {:get #(uptime %)})
