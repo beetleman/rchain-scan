@@ -5,11 +5,18 @@
             [baking-soda.core :as b]))
 
 
+(def hour-in-sec (* 60 60))
+(def day-in-sec (* hour-in-sec 24))
+
 (defn uptime->str [s]
-  (let [date (js/Date. (* s 3000))]
+  (let [date  (js/Date. (* s 1000))
+        days  (/ s day-in-sec)
+        hours (-> s
+                  (mod day-in-sec)
+                  (/ hour-in-sec))]
     (gstring/format "%dd %02d:%02d:%02d"
-                    (-> s (/ 3600) js/Math.floor)
-                    (.getUTCHours date)
+                    days
+                    hours
                     (.getUTCMinutes date)
                     (.getUTCSeconds date))))
 
