@@ -96,7 +96,8 @@
 
 (defn init! []
   (ajax/load-interceptors!)
-  (kf/start! {:debug?         true
+  (kf/start! {:debug?         false ; set to `true` if you want have a lot of logs,
+                                        ; use re-frame-10x insted
               :router         (routing/->ReititRouter routing/router)
               :chain-links    [ajax/ajax-chain sse/sse-chain]
               :initial-db     {}
