@@ -40,9 +40,11 @@
         out-ch    (a/mult in-ch)
         poison-ch (a/chan 1)]
     (a/go-loop [[_ c] [nil nil]]
-      (when-not (= c poison-ch)
-        (>! in-ch (producer-fn))
-        (recur (a/alts! [(a/timeout interval) poison-ch]))))
+      (if (= c poison-ch)
+        (a/close! in-ch)
+        (do
+          (>! in-ch (producer-fn))
+          (recur (a/alts! [(a/timeout interval) poison-ch])))))
     (->StreamProvider in-ch out-ch poison-ch)))
 
 
