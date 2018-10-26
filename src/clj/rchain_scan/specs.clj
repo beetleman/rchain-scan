@@ -1,5 +1,5 @@
-(ns rchain-scan.spec
-  (:require [spec-tools.spec :as spec])
+(ns rchain-scan.specs
+  (:require [spec-tools.core :as st])
   (:import [clojure.core.async.impl.channels ManyToManyChannel]))
 
 (defn channel-spec [i]

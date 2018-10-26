@@ -1,7 +1,7 @@
 (ns rchain-scan.stream
   (:require [clojure.spec.alpha :as s]
             [spec-tools.spec :as spec]
-            [rchain-scan.spec :refer [channel-spec]]
+            [rchain-scan.specs :refer [channel-spec]]
             [clojure.core.async :as a :refer [>! <!]]))
 
 
