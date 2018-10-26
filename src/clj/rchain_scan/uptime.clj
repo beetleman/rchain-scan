@@ -19,8 +19,8 @@
 
 (defn create-uptime-stream []
   (stream/create-interval-stream (fn []
-                            (calc-uptime start-datetime (t/now)))
-                          1000))
+                                   (calc-uptime start-datetime (t/now)))
+                                 1000))
 
 
 (mount/defstate uptime-stream

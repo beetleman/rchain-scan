@@ -6,7 +6,7 @@
             [rchain-scan.stream :as stream]))
 
 (defn epoch []
-  (quot (tc/to-long (t/now)) 1000))
+  (tc/to-epoch (t/now)))
 
 (deftest create-internal-stream
   (a/<!! (a/go
@@ -31,3 +31,14 @@
                    (<! sub) ; it can be value in buffer so i ignore first result
                    (is (nil? (<! sub)))))))))) ;channels returns nil if are closed
 
+
+(deftest on-msg
+  (a/<!! (a/go
+           (testing "call handler on every message and stop when sub closed"
+             (let [messages (range 10)
+                   sub (a/to-chan messages) ; chan closed after read of 10 messages
+                   recived-messages (atom [])]
+               (<! (stream/on-msg sub
+                                  (fn [m]
+                                    (swap! recived-messages conj m))))
+               (is (= messages @recived-messages)))))))
