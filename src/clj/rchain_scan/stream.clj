@@ -31,10 +31,13 @@
     (a/close! sub)))
 
 
+(defn stream-provider? [x]
+  (instance? StreamProvider x))
+
+
 (s/fdef create-interval-stream
   :args (s/cat :producer-fn channel-spec
-               :ret spec/pos-int?)
-  :ret #(instance? StreamProvider %))
+               :ret spec/pos-int?))
 (defn create-interval-stream [producer-fn interval]
   (let [in-ch     (a/chan (a/sliding-buffer 1))
         out-ch    (a/mult in-ch)

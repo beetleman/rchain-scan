@@ -2,6 +2,7 @@
   (:require [rchain-scan.db.core]
             [rchain-scan.rnode]
             [rchain-scan.handler]
+            [rchain-scan.uptime]
             [luminus-migrations.core :as migrations]
             [clojure.java.jdbc :as jdbc]
             [rchain-scan.config :as config]
@@ -10,6 +11,11 @@
 
 (defn env [f]
   (mount/start #'rchain-scan.config/env)
+  (f))
+
+
+(defn start-datetime [f]
+  (mount/start #'rchain-scan.uptime/start-datetime)
   (f))
 
 
