@@ -1,7 +1,7 @@
 (ns rchain-scan.routes.get-blocks
   (:require [rchain-scan.rnode :as rnode]
             [rchain-grpc.core :as grpc]
-            [rchain-grpc.spec :refer [blocks-info-spec]]
+            [rchain-grpc.specs :refer [blocks-info-spec]]
             [spec-tools.spec :as spec]
             [ring.util.http-response :refer :all]
             [clojure.spec.alpha :as s]))
