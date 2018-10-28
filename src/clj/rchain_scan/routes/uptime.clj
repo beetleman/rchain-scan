@@ -3,6 +3,8 @@
             [rchain-scan.uptime :refer [get-uptime uptime-stream]]
             [rchain-scan.stream :as stream]
             [ring.util.http-response :refer :all]
+            [spec-tools.spec :as spec]
+            [clojure.spec.alpha :as s]
             [clojure.core.async :as a :refer [<!]]))
 
 (defmulti uptime #(get-in % [:headers "accept"]))
@@ -22,5 +24,7 @@
   (sse/as-channel request (uptime-sse-handlers (stream/subscribe uptime-stream))))
 
 
+(s/def ::data spec/nat-int?)
 (defn routes []
-  {:get #(uptime %)})
+  {:get {:handler   #(uptime %)
+         :responses {200 {:body (s/keys :req-un [::data])}}}})
