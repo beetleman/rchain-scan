@@ -1,30 +1,27 @@
 (ns rchain-scan.routes.uptime
-  (:require [immutant.web.sse :as sse]
-            [rchain-scan.uptime :refer [get-uptime uptime-stream]]
+  (:require [clojure.spec.alpha :as s]
+            [rchain-scan.specs :refer [channel-spec]]
             [rchain-scan.stream :as stream]
+            [rchain-scan.uptime :refer [get-uptime uptime-stream]]
             [ring.util.http-response :refer :all]
+            [spec-tools.data-spec :as ds]
             [spec-tools.spec :as spec]
-            [clojure.spec.alpha :as s]
-            [clojure.core.async :as a :refer [<!]]))
+            [rchain-scan.sse :as sse]))
 
-(defmulti uptime #(get-in % [:headers "accept"]))
 
-(defmethod uptime :default [_]
+(defn uptime [_]
   (ok {:data (get-uptime)}))
 
-(defn- uptime-sse-handlers [sub]
-  {:on-open  (fn [ch]
-               (stream/on-msg sub
-                              (fn [data]
-                                (sse/send! ch {:data data :type "uptime"}))))
-   :on-close (fn [_ _]
-               (stream/unsubscribe uptime-stream sub))})
 
-(defmethod uptime "text/event-stream" [request]
-  (sse/as-channel request (uptime-sse-handlers (stream/subscribe uptime-stream))))
+(defn uptime-sse []
+  (sse/create-sse-stream uptime-stream "uptime"))
 
 
 (s/def ::data spec/nat-int?)
 (defn routes []
-  {:get {:handler   #(uptime %)
+  {:get {:handler   uptime
          :responses {200 {:body (s/keys :req-un [::data])}}}})
+
+
+(defn streams-routes []
+  {:get (uptime-sse)})
