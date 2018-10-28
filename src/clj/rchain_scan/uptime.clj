@@ -1,12 +1,27 @@
 (ns rchain-scan.uptime
   (:require [mount.core :as mount]
-            [clj-time.core :as t]))
+            [clj-time.core :as t]
+            [rchain-scan.stream :as stream]))
+
 
 (mount/defstate start-datetime :start (t/now))
 
+
 (defn calc-uptime [start now]
   (let [interval (t/interval start now)]
-    {:seconds (t/in-seconds interval)}))
+    (t/in-seconds interval)))
+
 
 (defn get-uptime []
   (calc-uptime start-datetime (t/now)))
+
+
+
+(defn create-uptime-stream []
+  (stream/create-interval-stream get-uptime
+                                 1000))
+
+
+(mount/defstate uptime-stream
+  :start (create-uptime-stream)
+  :stop (stream/stop uptime-stream))

@@ -1,10 +1,10 @@
 (ns rchain-grpc.core
   (:require [clojure.spec.alpha :as s]
             [rchain-grpc.rho-types :refer [rho->clj]]
-            [rchain-grpc.spec :refer [block-query-response-spec
-                                      blocks-info-spec
-                                      channel-spec
-                                      client-spec]]
+            [rchain-grpc.specs :refer [block-query-response-spec
+                                       blocks-info-spec
+                                       channel-spec
+                                       client-spec]]
             [spec-tools.spec :as spec])
   (:import [coop.rchain.casper.protocol CasperMessage
                                         CasperMessage$BlockQuery

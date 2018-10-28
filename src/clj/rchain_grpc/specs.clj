@@ -1,4 +1,4 @@
-(ns rchain-grpc.spec
+(ns rchain-grpc.specs
   (:require [spec-tools.data-spec :as ds]
             [spec-tools.spec :as spec]
             [clojure.spec.alpha :as s]

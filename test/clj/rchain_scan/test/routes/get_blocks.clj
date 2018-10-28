@@ -41,4 +41,3 @@
             resp (app (ring-mock/request :get (str "/api/blocks?depth=" depth "&test=a")))
             body (get-body resp)]
         (is (= depth (-> body :blocks count)))))))
-

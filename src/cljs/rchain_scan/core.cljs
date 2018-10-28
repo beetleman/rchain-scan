@@ -5,7 +5,9 @@
             [reagent.core :as r]
             [re-frame.core :as rf]
             [rchain-scan.ajax :as ajax]
-            [rchain-scan.routing :as routing])
+            [rchain-scan.routing :as routing]
+            [rchain-scan.sse :as sse]
+            [rchain-scan.uptime.core :as uptime])
   (:import goog.History))
 
 ; the navbar components are implemented via baking-soda [1]
@@ -23,10 +25,12 @@
 
 (defn navbar []
   (r/with-let [expanded? (r/atom true)]
-    [b/Navbar {:light true
+    [b/Navbar {:dark true
+               :color "dark"
                :class-name "navbar-dark bg-primary"
                :expand "md"}
      [b/NavbarBrand {:href "/"} "rchain-scan"]
+     [uptime/ui]
      [b/NavbarToggler {:on-click #(swap! expanded? not)}]
      [b/Collapse {:is-open @expanded? :navbar true}
       [b/Nav {:class-name "mr-auto" :navbar true}
@@ -65,9 +69,8 @@
 (kf/reg-chain
   ::load-home-page
   (fn [_ _]
-    {:http {:method      :get
-            :url         "/docs"
-            :error-event [:common/set-error]}})
+    {:http {:method :get
+            :url    "/docs"}})
   (fn [{:keys [db]} [_ docs]]
     {:db (assoc db :docs docs)}))
 
@@ -93,9 +96,10 @@
 
 (defn init! []
   (ajax/load-interceptors!)
-  (kf/start! {:debug?         true
+  (kf/start! {:debug?         false ; set to `true` if you want have a lot of logs,
+                                        ; use re-frame-10x insted
               :router         (routing/->ReititRouter routing/router)
-              :chain-links    [ajax/ajax-chain]
+              :chain-links    [ajax/ajax-chain sse/sse-chain]
               :initial-db     {}
               :root-component [root-component]})
   (routing/hook-browser-navigation!))
