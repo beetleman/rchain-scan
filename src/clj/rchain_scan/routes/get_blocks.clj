@@ -6,7 +6,9 @@
             [ring.util.http-response :refer :all]
             [clojure.spec.alpha :as s]))
 
-(defn get-blocks [req]
+(defmulti get-blocks #(get-in % [:headers "accept"]))
+
+(defmethod get-blocks :default [req]
   (let [depth (get-in req [:parameters :query :depth] 10)
         client (grpc/create-deploy-blocking-client rnode/channel)]
     (ok {:blocks (grpc/get-blocks client depth)})))

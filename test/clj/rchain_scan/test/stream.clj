@@ -8,7 +8,7 @@
 (defn epoch []
   (tc/to-epoch (t/now)))
 
-(deftest create-internal-stream
+(deftest create-interval-stream
   (a/<!! (a/go
            (let [start-epoch   (epoch)
                  only-1-stream (stream/create-interval-stream (constantly 1) 10)
