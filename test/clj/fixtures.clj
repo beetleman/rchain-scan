@@ -31,6 +31,8 @@
          (f))))
 
 (defn app [f]
-  (env (fn []
-         (mount/start #'rchain-scan.handler/app)
-         (f))))
+  (start-datetime
+   #(env
+    (fn []
+      (mount/start #'rchain-scan.handler/app)
+      (f)))))
