@@ -1,4 +1,4 @@
-(ns user
+(ns dev
   (:require [rchain-scan.config :refer [env]]
             [clojure.spec.alpha :as s]
             [expound.alpha :as expound]
