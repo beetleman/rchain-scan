@@ -1,16 +1,18 @@
 (ns rchain-scan.sse
   (:require [clojure.spec.alpha :as s]
             [immutant.web.sse :as sse]
-            [rchain-scan.specs :refer [channel-spec]]
+            [rchain-scan.specs :refer [channel-spec derefable-state-spec]]
             [rchain-scan.stream :as stream]
             [rchain-scan.uptime :refer [uptime-stream]]
             [ring.util.http-response :refer :all]
             [spec-tools.data-spec :as ds]
             [spec-tools.spec :as spec]))
 
+
 (def see-handler-spec (ds/spec {:name ::sse-handler
                                 :spec {:on-open  fn?
                                        :on-close fn?}}))
+
 
 (s/fdef sse-handler
   :args (s/cat :stream stream/stream-provider?
@@ -31,9 +33,12 @@
 
 
 (s/fdef create-sse-stream
-  :args (s/cat :stream stream/stream-provider?
-               :type (s/? spec/string?)
-               :transformer (s/? fn?))
+  :args (s/alt :resolved (s/cat :stream stream/stream-provider?
+                                :type (s/? spec/string?)
+                                :transformer (s/? fn?))
+               :derefered (s/cat :stream derefable-state-spec
+                                 :type (s/? spec/string?)
+                                 :transformer (s/? fn?)))
   :ret fn?)
 (defn create-sse-stream
   ([stream]
