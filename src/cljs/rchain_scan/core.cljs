@@ -4,10 +4,12 @@
             [markdown.core :refer [md->html]]
             [reagent.core :as r]
             [re-frame.core :as rf]
+            [rchain-scan.subscriptions.core]
+            [rchain-scan.controller.core]
             [rchain-scan.ajax :as ajax]
             [rchain-scan.routing :as routing]
             [rchain-scan.sse :as sse]
-            [rchain-scan.uptime.core :as uptime])
+            [rchain-scan.view.uptime :as uptime])
   (:import goog.History))
 
 ; the navbar components are implemented via baking-soda [1]
@@ -30,7 +32,7 @@
                :class-name "navbar-dark bg-primary"
                :expand "md"}
      [b/NavbarBrand {:href "/"} "rchain-scan"]
-     [uptime/ui]
+     [uptime/badge]
      [b/NavbarToggler {:on-click #(swap! expanded? not)}]
      [b/Collapse {:is-open @expanded? :navbar true}
       [b/Nav {:class-name "mr-auto" :navbar true}
