@@ -32,4 +32,6 @@
    ["/ping" {:get (constantly (ok {:message "ping"}))}]
    ["/pong" {:post (constantly (ok {:message "pong"}))}]
    ["/blocks" (get-blocks/routes)]
-   ["/uptime" (uptime/routes)]])
+   ["/uptime" (uptime/routes)]
+   ["/stream"
+    ["/uptime" (uptime/streams-routes)]]])

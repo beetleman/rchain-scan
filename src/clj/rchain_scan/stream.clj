@@ -36,8 +36,8 @@
 
 
 (s/fdef create-interval-stream
-  :args (s/cat :producer-fn channel-spec
-               :ret spec/pos-int?))
+  :args (s/cat :producer-fn fn? :interval spec/pos-int?)
+  :ret stream-provider?)
 (defn create-interval-stream [producer-fn interval]
   (let [in-ch     (a/chan (a/sliding-buffer 1))
         out-ch    (a/mult in-ch)

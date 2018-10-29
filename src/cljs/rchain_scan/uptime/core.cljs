@@ -24,7 +24,7 @@
 (kf/reg-chain
   ::load-uptime-stream
   (fn [_ _]
-    {:sse {:url "/api/uptime"}})
+    {:sse {:url "/api/stream/uptime"}})
   (fn [{:keys [db]} [_ {data :data}]]
     {:db (assoc db :uptime data)}))
 
