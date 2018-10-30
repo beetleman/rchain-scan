@@ -9,7 +9,8 @@
             [rchain-scan.ajax :as ajax]
             [rchain-scan.routing :as routing]
             [rchain-scan.sse :as sse]
-            [rchain-scan.view.uptime :as uptime])
+            [rchain-scan.view.uptime :as uptime]
+            [rchain-scan.view.blocks :as blocks])
   (:import goog.History))
 
 ; the navbar components are implemented via baking-soda [1]
@@ -37,6 +38,7 @@
      [b/Collapse {:is-open @expanded? :navbar true}
       [b/Nav {:class-name "mr-auto" :navbar true}
        [nav-link "Home" :home]
+       [nav-link "Blocks" :blocks]
        [nav-link "About" :about]]]]))
 
 (defn about-page []
@@ -88,6 +90,7 @@
    [kf/switch-route (fn [route] (get-in route [:data :name]))
     :home home-page
     :about about-page
+    :blocks blocks/page
     nil [:div ""]]])
 
 ;; -------------------------
