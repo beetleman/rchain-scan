@@ -28,10 +28,11 @@
 
 (defn navbar []
   (r/with-let [expanded? (r/atom true)]
-    [b/Navbar {:dark true
-               :color "dark"
+    [b/Navbar {:dark       true
+               :fixed      "top"
+               :color      "dark"
                :class-name "navbar-dark bg-primary"
-               :expand "md"}
+               :expand     "md"}
      [b/NavbarBrand {:href "/"} "rchain-scan"]
      [uptime/badge]
      [b/NavbarToggler {:on-click #(swap! expanded? not)}]
@@ -85,7 +86,7 @@
    :start  [::load-home-page]})
 
 (defn root-component []
-  [:div
+  [:div {:style {:margin-top 70}}
    [navbar]
    [kf/switch-route (fn [route] (get-in route [:data :name]))
     :home home-page

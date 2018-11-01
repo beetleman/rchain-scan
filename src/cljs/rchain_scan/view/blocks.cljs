@@ -21,7 +21,7 @@
 (defn block-record [block-data name selector]
   [:div
    [:div.d-inline-block.text-truncate {:style {:width "150px"}}
-    name]
+    [:b name ": "]]
    [:div.d-inline-block.text-truncate {:style {:width         "calc(100% - 150px)"
                                                :white-space   "nowrap"
                                                :overflow      "hidden"
