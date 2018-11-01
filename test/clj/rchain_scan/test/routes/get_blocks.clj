@@ -5,6 +5,8 @@
             [muuntaja.core :as m]
             [rchain-scan.middleware.formats :as formats]
             [rchain-scan.handler :refer :all]
+            [rchain-grpc.core :as grpc]
+            [rchain-scan.rnode :as rnode]
             [clojure.test :refer :all]))
 
 (use-fixtures
@@ -18,6 +20,9 @@
 (defn get-body [resp] (-> resp :body parse-json))
 
 (deftest get-blocks
+  (let [client (grpc/create-deploy-blocking-client rnode/channel)]
+    (fixtures/create-blocks-if-less client 10))
+
   (testing "GET"
     (testing "default response"
       (let [resp (app (ring-mock/request :get "/api/blocks"))

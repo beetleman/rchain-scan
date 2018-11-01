@@ -2,6 +2,7 @@
   (:import [io.grpc.stub ClientCalls$BlockingResponseStream]
            [coop.rchain.casper.protocol CasperMessage$BlockInfoWithoutTuplespace
             CasperMessage$BlockQueryResponse
+            CasperMessage$DeployServiceResponse
             CasperMessage$BlockInfo]))
 
 
@@ -33,6 +34,11 @@
    (rho->clj [response]
      {:status     (.getStatus response)
       :block-info (rho->clj (.getBlockInfo response))})
+
+   CasperMessage$DeployServiceResponse
+   (rho->clj [response]
+     {:success (.getSuccess response)
+      :message (.getMessage response)})
 
   CasperMessage$BlockInfo
    (rho->clj [info]
