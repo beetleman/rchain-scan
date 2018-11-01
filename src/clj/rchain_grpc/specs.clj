@@ -53,3 +53,9 @@
 
 (def block-query-response-spec (ds/spec {:name ::block-query-response
                                          :spec block-query-response}))
+
+(def deploy-service-response {:success spec/boolean?
+                              :message spec/string?})
+
+(def deploy-service-response-spec (ds/spec {:name ::deploy-service-response-spec
+                                            :spec deploy-service-response}))

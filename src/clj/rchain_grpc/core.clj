@@ -4,13 +4,20 @@
             [rchain-grpc.specs :refer [block-query-response-spec
                                        blocks-info-spec
                                        channel-spec
+                                       deploy-service-response-spec
                                        client-spec]]
+            [clj-time.core :as t]
+            [clj-time.coerce :as c]
             [spec-tools.spec :as spec])
   (:import [coop.rchain.casper.protocol CasperMessage
-                                        CasperMessage$BlockQuery
-                                        CasperMessage$BlocksQuery
-                                        DeployServiceGrpc]
-           io.grpc.ManagedChannelBuilder))
+            CasperMessage$BlockQuery
+            CasperMessage$BlocksQuery
+            CasperMessage$DeployData
+            CasperMessage$PhloLimit
+            CasperMessage$PhloPrice
+            DeployServiceGrpc]
+           io.grpc.ManagedChannelBuilder
+           [com.google.protobuf Empty]))
 
 
 (s/fdef create-channel
@@ -63,3 +70,53 @@
 (defn get-block [client hash]
   (rho->clj (.showBlock client
                         (block-query hash))))
+
+(defn- phlo-limit [value]
+  (-> (CasperMessage$PhloLimit/newBuilder)
+      (.setValue value)
+      .build))
+
+(defn- phlo-price [value]
+  (-> (CasperMessage$PhloPrice/newBuilder)
+      (.setValue value)
+      .build))
+
+(defn- deploy-data [term from phlo-limit phlo-price nonce timestamp]
+  (-> (CasperMessage$DeployData/newBuilder)
+      (.setTerm term)
+      (.setFrom from)
+      (.setPhloLimit phlo-limit)
+      (.setPhloPrice phlo-price)
+      (.setNonce nonce)
+      (.setTimestamp timestamp)
+      .build))
+
+(s/fdef deploy
+  :args (s/cat :channel           client-spec
+               :term              spec/string?
+               :from              (s/? spec/string?)
+               :phlo-limit-value  (s/? spec/pos-int?)
+               :phlo-price-value  (s/? spec/pos-int?)
+               :nonce             (s/? spec/nat-int?)
+               :timestamp         (s/? spec/pos-int?))
+  :ret deploy-service-response-spec)
+(defn deploy
+  ([client term]
+   (let [timestamp (c/to-long (t/now))]
+     (deploy client term "0x0" 10000000 1 0 timestamp)))
+
+  ([client term from phlo-limit-value phlo-price-value nonce timestamp]
+   (let [limit (phlo-limit phlo-limit-value)
+         price (phlo-price phlo-price-value)]
+     (rho->clj (.doDeploy client
+                         (deploy-data term from limit price nonce timestamp))))))
+
+(defn- empty []
+  (-> (Empty/newBuilder)
+      .build))
+
+(s/fdef propose
+  :args (s/cat :client client-spec)
+  :ret deploy-service-response-spec)
+(defn propose [client]
+  (rho->clj (.createBlock client (empty))))
