@@ -48,11 +48,12 @@
   ")
 
 (defn create-blocks [client i]
-  (dotimes [n i] (do (grpc/deploy client
-                                  (render contract-template {:number n :scope "tests"}))
-                     (grpc/propose client))))
+  (dotimes [n i]
+    (grpc/deploy client
+                 (render contract-template {:number n :scope "tests"}))
+    (grpc/propose client)))
 
 (defn create-blocks-if-less [client i]
   (let [blocks-count (count (grpc/get-blocks client i))]
-    (if (< blocks-count i)
+    (when (< blocks-count i)
       (create-blocks client (- i blocks-count)))))
