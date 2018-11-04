@@ -10,6 +10,7 @@
 
 (def routes
   [["/" :home]
+   ["/blocks" :blocks]
    ["/about" :about]])
 
 (defonce router (reitit/router routes))
