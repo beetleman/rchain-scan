@@ -1,4 +1,4 @@
-(ns rchain-scan.view.blocks
+(ns rchain-scan.view.main-chain
   (:require [re-frame.core :as rf]
             [baking-soda.core :as b]))
 
@@ -57,4 +57,4 @@
 (defn page []
   [b/Container
    [:div.d-flex.justify-content-center
-    [blocks @(rf/subscribe [:blocks])]]])
+    [blocks @(rf/subscribe [:main-chain])]]])

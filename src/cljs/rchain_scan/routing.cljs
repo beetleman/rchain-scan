@@ -10,7 +10,7 @@
 
 (def routes
   [["/" :home]
-   ["/blocks" :blocks]
+   ["/main-chain" :main-chain]
    ["/about" :about]])
 
 (defonce router (reitit/router routes))

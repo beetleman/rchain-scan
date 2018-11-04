@@ -2,15 +2,15 @@
   (:require [baking-soda.core :as b]
             [kee-frame.core :as kf]
             [markdown.core :refer [md->html]]
-            [reagent.core :as r]
-            [re-frame.core :as rf]
-            [rchain-scan.subscriptions.core]
-            [rchain-scan.controller.core]
             [rchain-scan.ajax :as ajax]
+            rchain-scan.controller.core
             [rchain-scan.routing :as routing]
             [rchain-scan.sse :as sse]
+            rchain-scan.subscriptions.core
+            [rchain-scan.view.main-chain :as blocks]
             [rchain-scan.view.uptime :as uptime]
-            [rchain-scan.view.blocks :as blocks])
+            [re-frame.core :as rf]
+            [reagent.core :as r])
   (:import goog.History))
 
 ; the navbar components are implemented via baking-soda [1]
@@ -39,7 +39,7 @@
      [b/Collapse {:is-open @expanded? :navbar true}
       [b/Nav {:class-name "mr-auto" :navbar true}
        [nav-link "Home" :home]
-       [nav-link "Blocks" :blocks]
+       [nav-link "Main Chain" :main-chain]
        [nav-link "About" :about]]]]))
 
 (defn about-page []
@@ -91,7 +91,7 @@
    [kf/switch-route (fn [route] (get-in route [:data :name]))
     :home home-page
     :about about-page
-    :blocks blocks/page
+    :main-chain blocks/page
     nil [:div ""]]])
 
 ;; -------------------------
