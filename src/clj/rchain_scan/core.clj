@@ -1,13 +1,13 @@
 (ns rchain-scan.core
-  (:require [rchain-scan.handler :as handler]
-            [rchain-scan.nrepl :as nrepl]
-            [luminus.http-server :as http]
-            [luminus-migrations.core :as migrations]
-            [rchain-scan.config :refer [env]]
-            [clojure.tools.cli :refer [parse-opts]]
+  (:gen-class)
+  (:require [clojure.tools.cli :refer [parse-opts]]
             [clojure.tools.logging :as log]
-            [mount.core :as mount])
-  (:gen-class))
+            [luminus-migrations.core :as migrations]
+            [luminus.http-server :as http]
+            [mount.core :as mount]
+            [rchain-scan.config :refer [env]]
+            [rchain-scan.handler :as handler]
+            [rchain-scan.nrepl :as nrepl]))
 
 (def cli-options
   [["-p" "--port PORT" "Port number"

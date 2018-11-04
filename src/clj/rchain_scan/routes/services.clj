@@ -6,6 +6,7 @@
             [ring.util.http-response :refer :all]
             [ring.middleware.params :as params]
             [rchain-scan.routes.get-blocks :as get-blocks]
+            [rchain-scan.routes.get-main-chain :as get-main-chain]
             [rchain-scan.routes.uptime :as uptime]))
 
 (defn service-routes []
@@ -32,6 +33,7 @@
    ["/ping" {:get (constantly (ok {:message "ping"}))}]
    ["/pong" {:post (constantly (ok {:message "pong"}))}]
    ["/blocks" (get-blocks/routes)]
+   ["/main-chain" (get-main-chain/routes)]
    ["/uptime" (uptime/routes)]
    ["/stream"
     ["/uptime" (uptime/streams-routes)]]])

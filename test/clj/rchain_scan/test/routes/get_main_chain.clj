@@ -1,5 +1,5 @@
-(ns rchain-scan.test.routes.get-blocks
-  (:require [rchain-scan.routes.get-blocks :as routes]
+(ns rchain-scan.test.routes.get-main-chain
+  (:require [rchain-scan.routes.get-main-chain :as routes]
             [ring.mock.request :as ring-mock]
             [fixtures :as fixtures]
             [muuntaja.core :as m]
@@ -19,12 +19,12 @@
 
 (defn get-body [resp] (-> resp :body parse-json))
 
-(deftest get-blocks
+(deftest get-main-chain
   (let [client (grpc/create-deploy-blocking-client rnode/channel)]
     (fixtures/create-blocks-if-less client 10))
 
   (testing "GET"
-    (let [req (ring-mock/request :get "/api/blocks")]
+    (let [req (ring-mock/request :get "/api/main-chain")]
       (testing "default response"
         (let [resp (app req)
               body (get-body resp)]
