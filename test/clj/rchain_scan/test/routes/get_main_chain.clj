@@ -24,25 +24,28 @@
     (fixtures/create-blocks-if-less client 10))
 
   (testing "GET"
-    (testing "default response"
-      (let [resp (app (ring-mock/request :get "/api/main-chain"))
-            body (get-body resp)]
-        (is (= 200 (:status resp)))
-        (is (= 10 (-> body :blocks count)))
-        (is (= (-> body :blocks first keys set)
-               #{:block-size
-                 :tuple-space-hash
-                 :block-hash
-                 :faul-tolerance
-                 :deploy-conut
-                 :block-number
-                 :main-parent-hash
-                 :sender
-                 :parent-hash-list
-                 :version
-                 :timestamp}))))
-    (testing "specifying depth"
-      (let [depth 2
-            resp (app (ring-mock/request :get (str "/api/blocks?depth=" depth "&test=a")))
-            body (get-body resp)]
-        (is (= depth (-> body :blocks count)))))))
+    (let [req (ring-mock/request :get "/api/main-chain")]
+      (testing "default response"
+        (let [resp (app req)
+              body (get-body resp)]
+          (is (= 200 (:status resp)))
+          (is (= 10 (-> body :blocks count)))
+          (is (= (-> body :blocks first keys set)
+                 #{:block-size
+                   :tuple-space-hash
+                   :block-hash
+                   :faul-tolerance
+                   :deploy-conut
+                   :block-number
+                   :main-parent-hash
+                   :sender
+                   :parent-hash-list
+                   :version
+                   :timestamp}))))
+      (testing "specifying depth"
+        (let [depth 2
+              resp  (app (-> req
+                             (ring-mock/query-string {:depth depth
+                                                      :test  "a"})))
+              body  (get-body resp)]
+          (is (= depth (-> body :blocks count))))))))
